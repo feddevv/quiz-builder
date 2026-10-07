@@ -1,10 +1,11 @@
 import type { Request, Response } from 'express';
-import type { QuizInputDTO, QuizOutputDTO } from './types';
 import * as quizzesService from './quizzes.service';
+import type { CreateQuizInputDTO } from './quizzes.schema';
+import type { CreateQuizOutputDTO } from './types';
 
 export async function postQuiz(
-  req: Request<unknown, unknown, QuizInputDTO>,
-  res: Response<QuizOutputDTO>,
+  req: Request<unknown, unknown, CreateQuizInputDTO>,
+  res: Response<CreateQuizOutputDTO>,
 ) {
   const { title, questions } = req.body;
 

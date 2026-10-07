@@ -1,8 +1,8 @@
 import { prisma } from '../db/prisma';
-import type { QuestionWithOptions, QuizInputDTO } from './types';
+import type { CreateQuizInputDTO } from './quizzes.schema';
 
 class QuizRepository {
-  async createQuiz({ title, questions }: QuizInputDTO) {
+  async createQuiz({ title, questions }: CreateQuizInputDTO) {
     const quiz = await prisma.quiz.create({
       data: {
         title,
@@ -11,7 +11,7 @@ class QuizRepository {
             question: q.question,
             type: q.type,
             options:
-              q.options && q.options.length > 0
+              q.type === 'checkbox' && q.options && q.options.length > 0
                 ? {
                     create: q.options.map((opt) => ({
                       title: opt.title,

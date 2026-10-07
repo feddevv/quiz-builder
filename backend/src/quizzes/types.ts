@@ -4,11 +4,6 @@ export interface QuestionWithOptions extends Question {
   options: Option[];
 }
 
-export interface QuizInputDTO {
-  title: string;
-  questions: QuestionWithOptions[];
-}
-
-export interface QuizOutputDTO {
+export interface CreateQuizOutputDTO {
   id: number;
 }

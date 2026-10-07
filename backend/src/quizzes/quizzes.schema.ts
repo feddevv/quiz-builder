@@ -31,4 +31,4 @@ export const createQuizSchema = z.object({
   questions: z.array(questionSchema).min(1, 'Quiz must contain at least 1 question'),
 });
 
-export type CreateQuizInput = z.infer<typeof createQuizSchema>;
+export type CreateQuizInputDTO = z.infer<typeof createQuizSchema>;
