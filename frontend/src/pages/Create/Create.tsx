@@ -1,11 +1,8 @@
 import { createQuizSchema, type CreateQuiz } from './create.schemas';
-import Text from './Text';
-import Checkbox from './Checkbox';
-import Boolean from './Boolean';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-
-type QuestionType = 'boolean' | 'input' | 'checkbox';
+import type { QuestionType } from './types';
+import QuestionItem from './QuestionItem';
 
 export default function CreateQuizPage() {
   const {
@@ -73,33 +70,15 @@ export default function CreateQuizPage() {
 
           <div className="space-y-4">
             {fields.map((field, index) => {
-              if (field.type === 'input')
-                return (
-                  <Text
-                    register={register}
-                    index={index}
-                    onDelete={() => handleDeleteQuestion(index)}
-                    key={field.id}
-                  />
-                );
-              else if (field.type === 'boolean')
-                return (
-                  <Boolean
-                    register={register}
-                    index={index}
-                    onDelete={() => handleDeleteQuestion(index)}
-                    key={field.id}
-                  />
-                );
-              else
-                return (
-                  <Checkbox
-                    register={register}
-                    index={index}
-                    onDelete={() => handleDeleteQuestion(index)}
-                    key={field.id}
-                  />
-                );
+              return (
+                <QuestionItem
+                  index={index}
+                  onDelete={() => handleDeleteQuestion(index)}
+                  register={register}
+                  key={field.id}
+                  type={field.type}
+                />
+              );
             })}
           </div>
 
