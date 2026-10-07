@@ -1,36 +1,52 @@
-import { useState } from 'react';
-import type { Questions } from './create.schemas';
+import { createQuizSchema, type CreateQuiz } from './create.schemas';
 import Text from './Text';
 import Checkbox from './Checkbox';
 import Boolean from './Boolean';
+import { useFieldArray, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 type QuestionType = 'boolean' | 'input' | 'checkbox';
 
 export default function CreateQuizPage() {
-  const [questions, setQuestions] = useState<(Questions & { id: string })[]>([]);
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<CreateQuiz>({
+    resolver: zodResolver(createQuizSchema),
+    defaultValues: {
+      title: '',
+      questions: [{ question: '', type: 'input' }],
+    },
+  });
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: 'questions',
+  });
 
   const handleAddQuestion = (type: QuestionType) => {
     switch (type) {
       case 'boolean':
-        setQuestions([...questions, { id: crypto.randomUUID(), type: 'boolean', question: '' }]);
+        append({ type: 'boolean', question: '' });
         break;
 
       case 'checkbox':
-        setQuestions([
-          ...questions,
-          { id: crypto.randomUUID(), type: 'checkbox', question: '', options: [] },
-        ]);
+        append({ type: 'checkbox', question: '', options: [] });
         break;
 
       case 'input':
-        setQuestions([...questions, { id: crypto.randomUUID(), type: 'input', question: '' }]);
+        append({ type: 'input', question: '' });
         break;
     }
   };
 
-  const handleDeleteQuestion = (id: string) => {
-    setQuestions(questions.filter((q) => q.id !== id));
+  const handleDeleteQuestion = (id: number) => {
+    remove(id);
   };
+
+  console.log(errors);
 
   return (
     <div className="min-h-screen bg-slate-50 py-10 px-4 sm:px-6 lg:px-8 font-sans text-slate-800">
@@ -42,7 +58,7 @@ export default function CreateQuizPage() {
           </p>
         </div>
 
-        <form action="/quizzes" method="POST" className="space-y-6">
+        <form onSubmit={handleSubmit((data) => console.log(data))} className="space-y-6">
           <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
             <label htmlFor="quiz-title" className="block text-sm font-semibold text-slate-700 mb-2">
               Quiz Title <span className="text-rose-500">*</span>
@@ -50,7 +66,7 @@ export default function CreateQuizPage() {
             <input
               type="text"
               id="quiz-title"
-              name="title"
+              {...register('title')}
               placeholder="e.g., Web Development Fundamentals"
               className="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all placeholder:text-slate-400 text-sm"
               defaultValue=""
@@ -58,12 +74,12 @@ export default function CreateQuizPage() {
           </div>
 
           <div className="space-y-4">
-            {questions.map((q) => {
-              if (q.type === 'input')
-                return <Text onDelete={() => handleDeleteQuestion(q.id)} key={q.id} />;
-              else if (q.type === 'boolean')
-                return <Boolean onDelete={() => handleDeleteQuestion(q.id)} key={q.id} />;
-              else return <Checkbox onDelete={() => handleDeleteQuestion(q.id)} key={q.id} />;
+            {fields.map((field, index) => {
+              if (field.type === 'input')
+                return <Text onDelete={() => handleDeleteQuestion(index)} key={field.id} />;
+              else if (field.type === 'boolean')
+                return <Boolean onDelete={() => handleDeleteQuestion(index)} key={field.id} />;
+              else return <Checkbox onDelete={() => handleDeleteQuestion(index)} key={field.id} />;
             })}
           </div>
 
