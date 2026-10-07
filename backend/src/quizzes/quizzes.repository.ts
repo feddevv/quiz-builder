@@ -47,6 +47,23 @@ class QuizRepository {
 
     return quizzes;
   }
+
+  async findQuizById(id: number) {
+    const quiz = await prisma.quiz.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        questions: {
+          include: {
+            options: true,
+          },
+        },
+      },
+    });
+
+    return quiz;
+  }
 }
 
 export const QuizRepo = new QuizRepository();

@@ -1,7 +1,7 @@
 import type { Request, Response } from 'express';
 import * as quizzesService from './quizzes.service';
 import type { CreateQuizInputDTO } from './quizzes.schema';
-import type { CreateQuizOutputDTO, GetQuizzesOutputDTO } from './types';
+import type { CreateQuizOutputDTO, GetQuizOutputDTO, GetQuizzesOutputDTO } from './types';
 
 export async function postQuiz(
   req: Request<unknown, unknown, CreateQuizInputDTO>,
@@ -23,4 +23,16 @@ export async function getQuizzes(req: Request, res: Response<GetQuizzesOutputDTO
   }));
 
   res.json(mapped);
+}
+
+export async function getQuizById(req: Request<{ id: string }>, res: Response<GetQuizOutputDTO>) {
+  const { id } = req.params;
+
+  const quiz = await quizzesService.getQuizById(Number(id));
+
+  if (!quiz) {
+    throw new Error('Not found');
+  }
+
+  res.json(quiz);
 }

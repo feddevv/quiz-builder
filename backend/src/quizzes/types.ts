@@ -9,3 +9,4 @@ export interface CreateQuizOutputDTO {
 }
 
 export type GetQuizzesOutputDTO = (Quiz & { questionsAmount: number })[];
+export type GetQuizOutputDTO = CreateQuizOutputDTO;

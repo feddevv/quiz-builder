@@ -10,7 +10,11 @@ export async function createQuiz({ title, questions }: CreateQuizInputDTO) {
 export async function getQuizzes() {
   const quizzes = await QuizRepo.findAllQuizzes();
 
-  
-
   return quizzes;
+}
+
+export async function getQuizById(id: number) {
+  const quiz = await QuizRepo.findQuizById(id);
+
+  return quiz;
 }
