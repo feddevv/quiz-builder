@@ -46,8 +46,6 @@ export default function CreateQuizPage() {
     remove(id);
   };
 
-  console.log(errors);
-
   return (
     <div className="min-h-screen bg-slate-50 py-10 px-4 sm:px-6 lg:px-8 font-sans text-slate-800">
       <div className="max-w-3xl mx-auto">
@@ -76,10 +74,32 @@ export default function CreateQuizPage() {
           <div className="space-y-4">
             {fields.map((field, index) => {
               if (field.type === 'input')
-                return <Text onDelete={() => handleDeleteQuestion(index)} key={field.id} />;
+                return (
+                  <Text
+                    register={register}
+                    index={index}
+                    onDelete={() => handleDeleteQuestion(index)}
+                    key={field.id}
+                  />
+                );
               else if (field.type === 'boolean')
-                return <Boolean onDelete={() => handleDeleteQuestion(index)} key={field.id} />;
-              else return <Checkbox onDelete={() => handleDeleteQuestion(index)} key={field.id} />;
+                return (
+                  <Boolean
+                    register={register}
+                    index={index}
+                    onDelete={() => handleDeleteQuestion(index)}
+                    key={field.id}
+                  />
+                );
+              else
+                return (
+                  <Checkbox
+                    register={register}
+                    index={index}
+                    onDelete={() => handleDeleteQuestion(index)}
+                    key={field.id}
+                  />
+                );
             })}
           </div>
 

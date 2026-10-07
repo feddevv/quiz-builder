@@ -1,8 +1,13 @@
+import type { UseFormRegister } from 'react-hook-form';
+import type { CreateQuiz } from './create.schemas';
+
 interface CheckboxProps {
   onDelete: () => void;
+  index: number;
+  register: UseFormRegister<CreateQuiz>;
 }
 
-export default function Checkbox({ onDelete }: CheckboxProps) {
+export default function Checkbox({ onDelete, index, register }: CheckboxProps) {
   return (
     <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm relative">
       <div className="flex items-center justify-between gap-4 mb-4">
@@ -30,6 +35,7 @@ export default function Checkbox({ onDelete }: CheckboxProps) {
         <div>
           <label className="block text-xs font-semibold text-slate-600 mb-1">Question Text</label>
           <input
+            {...register(`questions.${index}.question`)}
             type="text"
             placeholder="e.g., Which of the following are compiled languages?"
             className="w-full px-3.5 py-2 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"

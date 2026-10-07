@@ -1,8 +1,13 @@
+import type { UseFormRegister } from 'react-hook-form';
+import type { CreateQuiz } from './create.schemas';
+
 interface BooleanProps {
   onDelete: () => void;
+  index: number;
+  register: UseFormRegister<CreateQuiz>;
 }
 
-export default function Boolean({ onDelete }: BooleanProps) {
+export default function Boolean({ onDelete, register, index }: BooleanProps) {
   return (
     <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm relative">
       <div className="flex items-center justify-between gap-4 mb-4">
@@ -31,6 +36,7 @@ export default function Boolean({ onDelete }: BooleanProps) {
           <label className="block text-xs font-semibold text-slate-600 mb-1">Question Text</label>
           <input
             type="text"
+            {...register(`questions.${index}.question`)}
             placeholder="e.g., The Earth revolves around the Sun."
             className="w-full px-3.5 py-2 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
           />
