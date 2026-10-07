@@ -4,7 +4,9 @@ import Quiz from './Quiz';
 import type { GetQuizzesResponseDTO } from '../../types';
 
 export default function Quizzes() {
-  const { data, setData } = useFetch<GetQuizzesResponseDTO[]>('http://localhost:3000/api/quizzes');
+  const { data, loading, setData } = useFetch<GetQuizzesResponseDTO[]>(
+    'http://localhost:3000/api/quizzes',
+  );
 
   const handleDeleteQuiz = async (id: number) => {
     const res = await fetch(`http://localhost:3000/api/quizzes/${id}`, {
@@ -15,6 +17,14 @@ export default function Quizzes() {
 
     setData((prev) => prev?.filter((el) => el.id !== id) ?? null);
   };
+
+  if (loading) {
+    return (
+      <div className="w-full min-h-screen flex items-center justify-center">
+        <h1>Loading</h1>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-slate-50 py-10 px-4 sm:px-6 lg:px-8 font-sans text-slate-800">

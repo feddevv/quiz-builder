@@ -6,7 +6,17 @@ import QuizQuestion from './QuizQuestion';
 export default function QuizDetails() {
   const { id } = useParams();
 
-  const { data } = useFetch<GetQuizResponseDTO>(`http://localhost:3000/api/quizzes/${Number(id)}`);
+  const { data, loading } = useFetch<GetQuizResponseDTO>(
+    `http://localhost:3000/api/quizzes/${Number(id)}`,
+  );
+
+  if (loading) {
+    return (
+      <div className="w-full min-h-screen flex items-center justify-center">
+        <h1>Loading</h1>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-slate-50 py-10 px-4 sm:px-6 lg:px-8 font-sans text-slate-800">
