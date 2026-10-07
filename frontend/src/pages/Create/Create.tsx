@@ -1,5 +1,5 @@
 import { createQuizSchema, type CreateQuiz } from './create.schemas';
-import { useFieldArray, useForm } from 'react-hook-form';
+import { useFieldArray, useForm, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { QuestionType } from './types';
 import QuestionItem from './QuestionItem';
@@ -22,6 +22,18 @@ export default function CreateQuizPage() {
     control,
     name: 'questions',
   });
+
+  const onSubmit: SubmitHandler<CreateQuiz> = async (data) => {
+    const quiz = await fetch('http://localhost:3000/api/quizzes', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+
+    console.log(quiz);
+  };
 
   const handleAddQuestion = (type: QuestionType) => {
     switch (type) {
@@ -53,7 +65,7 @@ export default function CreateQuizPage() {
           </p>
         </div>
 
-        <form onSubmit={handleSubmit((data) => console.log(data))} className="space-y-6">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
             <label htmlFor="quiz-title" className="block text-sm font-semibold text-slate-700 mb-2">
               Quiz Title <span className="text-rose-500">*</span>

@@ -1,4 +1,5 @@
 import express, { json, type Request, type Response, type NextFunction } from 'express';
+import cors from 'cors';
 import { router as quizzesRouter } from './quizzes/quizzes.route';
 import { ZodError } from 'zod';
 import { HttpError } from './errors/HttpError';
@@ -6,6 +7,7 @@ import { HttpError } from './errors/HttpError';
 const app = express();
 
 app.use(json());
+app.use(cors());
 
 app.use('/api', quizzesRouter);
 
