@@ -1,9 +1,10 @@
 import { createBrowserRouter, RouterProvider } from 'react-router';
+import Create from './pages/Create/Create';
 
 const router = createBrowserRouter([
   {
     path: '/create',
-    element: <h1>Create</h1>,
+    element: <Create />,
   },
   {
     path: '/quizzes',
