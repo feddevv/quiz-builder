@@ -33,6 +33,20 @@ class QuizRepository {
 
     return quiz;
   }
+
+  async findAllQuizzes() {
+    const quizzes = await prisma.quiz.findMany({
+      include: {
+        _count: {
+          select: {
+            questions: true,
+          },
+        },
+      },
+    });
+
+    return quizzes;
+  }
 }
 
 export const QuizRepo = new QuizRepository();

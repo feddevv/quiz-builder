@@ -6,3 +6,11 @@ export async function createQuiz({ title, questions }: CreateQuizInputDTO) {
 
   return quiz;
 }
+
+export async function getQuizzes() {
+  const quizzes = await QuizRepo.findAllQuizzes();
+
+  
+
+  return quizzes;
+}

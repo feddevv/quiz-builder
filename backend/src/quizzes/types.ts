@@ -1,4 +1,4 @@
-import type { Option, Question } from '../generated/prisma/client';
+import type { Option, Question, Quiz } from '../generated/prisma/client';
 
 export interface QuestionWithOptions extends Question {
   options: Option[];
@@ -7,3 +7,5 @@ export interface QuestionWithOptions extends Question {
 export interface CreateQuizOutputDTO {
   id: number;
 }
+
+export type GetQuizzesOutputDTO = (Quiz & { questionsAmount: number })[];

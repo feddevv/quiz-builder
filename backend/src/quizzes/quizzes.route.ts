@@ -6,3 +6,4 @@ import { createQuizSchema } from './quizzes.schema';
 export const router = Router();
 
 router.post('/quizzes', validate({ body: createQuizSchema }), quizzesController.postQuiz);
+router.get('/quizzes', quizzesController.getQuizzes);
