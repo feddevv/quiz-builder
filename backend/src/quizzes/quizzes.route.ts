@@ -8,3 +8,4 @@ export const router = Router();
 router.post('/quizzes', validate({ body: createQuizSchema }), quizzesController.postQuiz);
 router.get('/quizzes', quizzesController.getQuizzes);
 router.get('/quizzes/:id', quizzesController.getQuizById);
+router.delete('/quizzes/:id', quizzesController.deleteQuizById);

@@ -37,3 +37,11 @@ export async function getQuizById(req: Request<{ id: string }>, res: Response<Ge
 
   res.json(quiz);
 }
+
+export async function deleteQuizById(req: Request<{ id: string }>, res: Response<{ id: number }>) {
+  const { id } = req.params;
+
+  const quiz = await quizzesService.deleteQuizById(Number(id));
+
+  res.json(quiz);
+}

@@ -1,5 +1,7 @@
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/client';
 import { prisma } from '../db/prisma';
 import type { CreateQuizInputDTO } from './quizzes.schema';
+import { HttpError } from '../errors/HttpError';
 
 class QuizRepository {
   async createQuiz({ title, questions }: CreateQuizInputDTO) {
@@ -63,6 +65,26 @@ class QuizRepository {
     });
 
     return quiz;
+  }
+
+  async deleteQuizById(id: number) {
+    try {
+      const deletedQuiz = await prisma.quiz.delete({
+        where: {
+          id,
+        },
+      });
+
+      return deletedQuiz;
+    } catch (err) {
+      if (err instanceof PrismaClientKnownRequestError) {
+        if (err.code === 'P2025') {
+          return null;
+        }
+      }
+
+      throw err;
+    }
   }
 }
 

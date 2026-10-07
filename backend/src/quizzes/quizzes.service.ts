@@ -1,3 +1,4 @@
+import { HttpError } from '../errors/HttpError';
 import { QuizRepo } from './quizzes.repository';
 import type { CreateQuizInputDTO } from './quizzes.schema';
 
@@ -17,4 +18,14 @@ export async function getQuizById(id: number) {
   const quiz = await QuizRepo.findQuizById(id);
 
   return quiz;
+}
+
+export async function deleteQuizById(id: number) {
+  const deletedQuiz = await QuizRepo.deleteQuizById(id);
+
+  if (!deletedQuiz) {
+    throw new HttpError(404, 'Quiz not found');
+  }
+
+  return deletedQuiz;
 }
