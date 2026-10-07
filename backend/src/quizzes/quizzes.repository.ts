@@ -1,8 +1,8 @@
-import type { Question } from '../generated/prisma/client';
 import { prisma } from '../db/prisma';
+import type { QuizInputDTO } from './types';
 
 class QuizRepository {
-  async createQuiz({ title, questions }: { title: string; questions: Question[] }) {
+  async createQuiz({ title, questions }: QuizInputDTO) {
     const quiz = await prisma.quiz.create({
       data: {
         title,
