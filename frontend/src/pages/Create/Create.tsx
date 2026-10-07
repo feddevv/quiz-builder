@@ -3,6 +3,7 @@ import { useFieldArray, useForm, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { QuestionType } from './types';
 import QuestionItem from './QuestionItem';
+import { useNavigate } from 'react-router';
 
 export default function CreateQuizPage() {
   const {
@@ -23,6 +24,7 @@ export default function CreateQuizPage() {
     name: 'questions',
   });
 
+  const navigate = useNavigate();
   const onSubmit: SubmitHandler<CreateQuiz> = async (data) => {
     const quiz = await fetch('http://localhost:3000/api/quizzes', {
       method: 'POST',
@@ -32,7 +34,9 @@ export default function CreateQuizPage() {
       body: JSON.stringify(data),
     });
 
-    console.log(quiz);
+    const res = await quiz.json();
+
+    navigate(`/quizzes/${res.id}`);
   };
 
   const handleAddQuestion = (type: QuestionType) => {
