@@ -398,7 +398,8 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   Quiz: 'Quiz',
-  Question: 'Question'
+  Question: 'Question',
+  Option: 'Option'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -414,7 +415,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "quiz" | "question"
+    modelProps: "quiz" | "question" | "option"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -566,6 +567,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Option: {
+      payload: Prisma.$OptionPayload<ExtArgs>
+      fields: Prisma.OptionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.OptionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OptionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.OptionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OptionPayload>
+        }
+        findFirst: {
+          args: Prisma.OptionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OptionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.OptionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OptionPayload>
+        }
+        findMany: {
+          args: Prisma.OptionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OptionPayload>[]
+        }
+        create: {
+          args: Prisma.OptionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OptionPayload>
+        }
+        createMany: {
+          args: Prisma.OptionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.OptionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OptionPayload>[]
+        }
+        delete: {
+          args: Prisma.OptionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OptionPayload>
+        }
+        update: {
+          args: Prisma.OptionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OptionPayload>
+        }
+        deleteMany: {
+          args: Prisma.OptionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.OptionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.OptionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OptionPayload>[]
+        }
+        upsert: {
+          args: Prisma.OptionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OptionPayload>
+        }
+        aggregate: {
+          args: Prisma.OptionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateOption>
+        }
+        groupBy: {
+          args: Prisma.OptionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OptionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.OptionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OptionCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -622,6 +697,15 @@ export const QuestionScalarFieldEnum = {
 } as const
 
 export type QuestionScalarFieldEnum = (typeof QuestionScalarFieldEnum)[keyof typeof QuestionScalarFieldEnum]
+
+
+export const OptionScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  questionId: 'questionId'
+} as const
+
+export type OptionScalarFieldEnum = (typeof OptionScalarFieldEnum)[keyof typeof OptionScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -868,6 +952,7 @@ export type PrismaClientOptions = PrismaClientOptionsWithAccelerateUrl | PrismaC
 export type GlobalOmitConfig = {
   quiz?: Prisma.QuizOmit
   question?: Prisma.QuestionOmit
+  option?: Prisma.OptionOmit
 }
 
 /* Types for Logging */

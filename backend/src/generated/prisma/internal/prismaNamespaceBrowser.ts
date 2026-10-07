@@ -52,7 +52,8 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   Quiz: 'Quiz',
-  Question: 'Question'
+  Question: 'Question',
+  Option: 'Option'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -88,6 +89,15 @@ export const QuestionScalarFieldEnum = {
 } as const
 
 export type QuestionScalarFieldEnum = (typeof QuestionScalarFieldEnum)[keyof typeof QuestionScalarFieldEnum]
+
+
+export const OptionScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  questionId: 'questionId'
+} as const
+
+export type OptionScalarFieldEnum = (typeof OptionScalarFieldEnum)[keyof typeof OptionScalarFieldEnum]
 
 
 export const SortOrder = {

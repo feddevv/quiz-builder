@@ -27,3 +27,8 @@ export type Quiz = Prisma.QuizModel
  * 
  */
 export type Question = Prisma.QuestionModel
+/**
+ * Model Option
+ * 
+ */
+export type Option = Prisma.OptionModel
