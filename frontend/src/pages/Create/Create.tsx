@@ -3,7 +3,7 @@ import { useFieldArray, useForm, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { QuestionType } from './types';
 import QuestionItem from './QuestionItem';
-import { useNavigate } from 'react-router';
+import { useNavigate, Link } from 'react-router';
 
 export default function CreateQuizPage() {
   const {
@@ -133,12 +133,13 @@ export default function CreateQuizPage() {
           </div>
 
           <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-200">
-            <button
+            <Link
+              to={'/quizzes'}
               type="button"
               className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors"
             >
               Cancel
-            </button>
+            </Link>
             <button
               type="submit"
               className="px-5 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
