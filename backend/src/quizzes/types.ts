@@ -4,3 +4,7 @@ export interface QuizInputDTO {
   title: string;
   questions: Question[];
 }
+
+export interface QuizOutputDTO {
+  id: number;
+}
