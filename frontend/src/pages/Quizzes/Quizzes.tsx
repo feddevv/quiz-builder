@@ -1,7 +1,7 @@
 import { Link } from 'react-router';
 import { useFetch } from '../../hooks/useFetch';
 import Quiz from './Quiz';
-import type { GetQuizzesResponseDTO } from '../Create/types';
+import type { GetQuizzesResponseDTO } from '../../types';
 
 export default function Quizzes() {
   const { data, setData } = useFetch<GetQuizzesResponseDTO[]>('http://localhost:3000/api/quizzes');

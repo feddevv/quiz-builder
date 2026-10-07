@@ -1,7 +1,7 @@
 import { createQuizSchema, type CreateQuiz } from './create.schemas';
 import { useFieldArray, useForm, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import type { QuestionType } from './types';
+import type { QuestionType } from '../../types';
 import QuestionItem from './QuestionItem';
 import { useNavigate, Link } from 'react-router';
 

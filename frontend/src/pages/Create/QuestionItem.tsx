@@ -5,7 +5,7 @@ import {
   type UseFormRegister,
 } from 'react-hook-form';
 import type { CreateQuiz } from './create.schemas';
-import type { QuestionType } from './types';
+import type { QuestionType } from '../../types';
 
 interface QuestionItemProps {
   onDelete: () => void;
