@@ -1,3 +1,5 @@
+import { Link } from 'react-router';
+
 interface QuizProps {
   id: number;
   title: string;
@@ -8,7 +10,7 @@ interface QuizProps {
 export default function Quiz({ id, questionsAmount, title, onDelete }: QuizProps) {
   return (
     <div className="group bg-white rounded-xl border border-slate-200 shadow-sm hover:border-slate-300 transition-all flex items-center justify-between p-5">
-      <a href={`/quizzes/${id}`} className="flex-1 min-w-0 pr-4">
+      <Link to={`/quizzes/${id}`} className="flex-1 min-w-0 pr-4">
         <h2 className="text-base font-semibold text-slate-900 group-hover:text-indigo-600 transition-colors truncate">
           {title}
         </h2>
@@ -30,7 +32,7 @@ export default function Quiz({ id, questionsAmount, title, onDelete }: QuizProps
             {questionsAmount} {questionsAmount === 1 ? 'question' : 'questions'}
           </span>
         </div>
-      </a>
+      </Link>
 
       <div className="flex items-center gap-2 shrink-0">
         <a
