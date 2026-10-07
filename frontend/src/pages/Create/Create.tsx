@@ -66,6 +66,9 @@ export default function CreateQuizPage() {
               className="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all placeholder:text-slate-400 text-sm"
               defaultValue=""
             />
+            {errors?.title?.message && (
+              <p className="mt-1 text-xs text-rose-500">{errors.title.message}</p>
+            )}
           </div>
 
           <div className="space-y-4">
@@ -77,6 +80,8 @@ export default function CreateQuizPage() {
                   register={register}
                   key={field.id}
                   type={field.type}
+                  control={control}
+                  errors={errors}
                 />
               );
             })}

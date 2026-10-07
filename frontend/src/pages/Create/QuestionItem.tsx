@@ -1,4 +1,9 @@
-import type { UseFormRegister } from 'react-hook-form';
+import {
+  useFieldArray,
+  type Control,
+  type FieldErrors,
+  type UseFormRegister,
+} from 'react-hook-form';
 import type { CreateQuiz } from './create.schemas';
 import type { QuestionType } from './types';
 
@@ -6,28 +11,51 @@ interface QuestionItemProps {
   onDelete: () => void;
   index: number;
   register: UseFormRegister<CreateQuiz>;
+  errors: FieldErrors<CreateQuiz>;
+  control?: Control<CreateQuiz>;
   type?: QuestionType;
 }
 
-export default function QuestionItem({ index, onDelete, register, type }: QuestionItemProps) {
+export default function QuestionItem({
+  index,
+  onDelete,
+  register,
+  type,
+  control,
+  errors,
+}: QuestionItemProps) {
   switch (type) {
     case 'boolean':
-      return <Boolean index={index} onDelete={onDelete} register={register} />;
+      return <Boolean errors={errors} index={index} onDelete={onDelete} register={register} />;
 
     case 'checkbox':
-      return <Checkbox index={index} onDelete={onDelete} register={register} />;
+      return (
+        <Checkbox
+          errors={errors}
+          control={control}
+          index={index}
+          onDelete={onDelete}
+          register={register}
+        />
+      );
 
     case 'input':
-      return <Text index={index} onDelete={onDelete} register={register} />;
+      return <Text errors={errors} index={index} onDelete={onDelete} register={register} />;
   }
 }
 
-function Checkbox({ onDelete, index, register }: QuestionItemProps) {
+function Checkbox({ onDelete, index, register, control, errors }: QuestionItemProps) {
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: `questions.${index}.options` as 'questions.0.options',
+  });
+
+  const questionErrors = errors.questions?.[index];
   return (
     <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm relative">
       <div className="flex items-center justify-between gap-4 mb-4">
         <span className="text-xs font-bold uppercase tracking-wider text-amber-600 bg-amber-50 px-2.5 py-1 rounded-md">
-          Question 3 • Multiple Choice (Checkboxes)
+          Question {index + 1} • Multiple Choice (Checkboxes)
         </span>
         <button
           type="button"
@@ -52,43 +80,43 @@ function Checkbox({ onDelete, index, register }: QuestionItemProps) {
           <input
             {...register(`questions.${index}.question`)}
             type="text"
-            placeholder="e.g., Which of the following are compiled languages?"
+            placeholder="e.g., Which technologies do you use?"
             className="w-full px-3.5 py-2 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
           />
+          {questionErrors?.question?.message && (
+            <p className="mt-1 text-xs text-rose-500">{questionErrors.question.message}</p>
+          )}
         </div>
 
         <div className="space-y-2.5">
-          <span className="block text-xs font-semibold text-slate-600">
-            Options (select all that apply):
-          </span>
+          <span className="block text-xs font-semibold text-slate-600">Options:</span>
 
-          {[
-            { text: 'Option A', isChecked: true },
-            { text: 'Option B', isChecked: false },
-            { text: 'Option C', isChecked: true },
-          ].map((option, idx) => (
-            <div key={idx} className="flex items-center gap-3">
-              <input
-                type="checkbox"
-                defaultChecked={option.isChecked}
-                className="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500"
-              />
+          {fields.map((field, optIdx) => (
+            <div key={field.id} className="flex items-center gap-3">
+              <div className="w-4 h-4 rounded border border-slate-300 bg-slate-50 shrink-0" />
+
               <input
                 type="text"
-                defaultValue={option.text}
+                {...register(`questions.${index}.options.${optIdx}.title`)}
+                placeholder={`Option ${optIdx + 1}`}
                 className="flex-1 px-3 py-1.5 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500"
               />
-              <button
-                type="button"
-                className="text-slate-300 hover:text-rose-500 transition-colors text-xs"
-              >
-                ✕
-              </button>
+
+              {fields.length > 2 && (
+                <button
+                  type="button"
+                  onClick={() => remove(optIdx)}
+                  className="text-slate-300 hover:text-rose-500 transition-colors text-xs"
+                >
+                  ✕
+                </button>
+              )}
             </div>
           ))}
 
           <button
             type="button"
+            onClick={() => append({ title: '' })}
             className="text-xs font-medium text-indigo-600 hover:text-indigo-800 transition-colors pt-1"
           >
             + Add Option
@@ -99,7 +127,9 @@ function Checkbox({ onDelete, index, register }: QuestionItemProps) {
   );
 }
 
-function Text({ onDelete, index, register }: QuestionItemProps) {
+function Text({ onDelete, index, register, errors }: QuestionItemProps) {
+  const questionErrors = errors.questions?.[index];
+
   return (
     <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm relative">
       <div className="flex items-center justify-between gap-4 mb-4">
@@ -132,13 +162,18 @@ function Text({ onDelete, index, register }: QuestionItemProps) {
             placeholder="e.g., What is the capital of Ukraine?"
             className="w-full px-3.5 py-2 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
           />
+
+          {questionErrors?.question?.message && (
+            <p className="mt-1 text-xs text-rose-500">{questionErrors.question.message}</p>
+          )}
         </div>
       </div>
     </div>
   );
 }
 
-function Boolean({ onDelete, register, index }: QuestionItemProps) {
+function Boolean({ onDelete, register, index, errors }: QuestionItemProps) {
+  const questionErrors = errors.questions?.[index];
   return (
     <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm relative">
       <div className="flex items-center justify-between gap-4 mb-4">
@@ -171,6 +206,10 @@ function Boolean({ onDelete, register, index }: QuestionItemProps) {
             placeholder="e.g., The Earth revolves around the Sun."
             className="w-full px-3.5 py-2 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
           />
+
+          {questionErrors?.question?.message && (
+            <p className="mt-1 text-xs text-rose-500">{questionErrors.question.message}</p>
+          )}
         </div>
 
         <div>

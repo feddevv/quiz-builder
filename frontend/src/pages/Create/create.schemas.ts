@@ -32,4 +32,3 @@ export const createQuizSchema = z.object({
 });
 
 export type CreateQuiz = z.infer<typeof createQuizSchema>;
-export type Questions = z.infer<typeof questionSchema>;
