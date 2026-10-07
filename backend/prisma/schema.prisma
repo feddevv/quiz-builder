@@ -1,8 +1,31 @@
 generator client {
   provider = "prisma-client"
-  output   = "../generated/prisma"
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
+}
+
+model Quiz {
+  id        Int      @id @default(autoincrement())
+  title     String
+  createdAt DateTime @default(now())
+
+  questions Question[]
+}
+
+model Question {
+  id       Int          @id @default(autoincrement())
+  question String
+  type     QuestionType
+
+  quiz   Quiz @relation(fields: [quizId], references: [id])
+  quizId Int
+}
+
+enum QuestionType {
+  boolean
+  input
+  checkbox
 }
