@@ -26,7 +26,7 @@ export default function CreateQuizPage() {
 
   const navigate = useNavigate();
   const onSubmit: SubmitHandler<CreateQuiz> = async (data) => {
-    const quiz = await fetch('http://localhost:3000/api/quizzes', {
+    const res = await fetch('http://localhost:3000/api/quizzes', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -34,9 +34,11 @@ export default function CreateQuizPage() {
       body: JSON.stringify(data),
     });
 
-    const res = await quiz.json();
+    if (!res.ok) throw new Error('Unable to create');
 
-    navigate(`/quizzes/${res.id}`);
+    const parsed = await res.json();
+
+    navigate(`/quizzes/${parsed.id}`);
   };
 
   const handleAddQuestion = (type: QuestionType) => {
