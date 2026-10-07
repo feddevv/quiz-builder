@@ -31,10 +31,6 @@ export async function getQuizById(req: Request<{ id: string }>, res: Response<Ge
 
   const quiz = await quizzesService.getQuizById(Number(id));
 
-  if (!quiz) {
-    throw new HttpError(404, 'Quiz not found');
-  }
-
   res.json(quiz);
 }
 

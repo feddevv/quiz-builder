@@ -17,6 +17,10 @@ export async function getQuizzes() {
 export async function getQuizById(id: number) {
   const quiz = await QuizRepo.findQuizById(id);
 
+  if (!quiz) {
+    throw new HttpError(404, 'Quiz not found');
+  }
+
   return quiz;
 }
 
