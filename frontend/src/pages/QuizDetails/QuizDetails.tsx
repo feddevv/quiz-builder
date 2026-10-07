@@ -8,10 +8,6 @@ export default function QuizDetails() {
 
   const { data } = useFetch<GetQuizResponseDTO>(`http://localhost:3000/api/quizzes/${Number(id)}`);
 
-  if (!data) {
-    return <h1>Error</h1>;
-  }
-
   return (
     <div className="min-h-screen bg-slate-50 py-10 px-4 sm:px-6 lg:px-8 font-sans text-slate-800">
       <div className="max-w-3xl mx-auto">
@@ -24,7 +20,7 @@ export default function QuizDetails() {
           </Link>
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <h1 className="text-3xl font-bold tracking-tight text-slate-900">{data.title}</h1>
+              <h1 className="text-3xl font-bold tracking-tight text-slate-900">{data!.title}</h1>
             </div>
             <div className="flex items-center gap-2">
               <span className="text-xs font-medium text-slate-500 bg-slate-200/70 px-3 py-1.5 rounded-lg">
@@ -35,7 +31,7 @@ export default function QuizDetails() {
         </div>
 
         <div className="space-y-4">
-          {data.questions.map((q, index) => (
+          {data!.questions.map((q, index) => (
             <QuizQuestion
               id={q.id}
               index={index}
