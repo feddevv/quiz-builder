@@ -47,7 +47,7 @@ export default function QuestionItem({
 function Checkbox({ onDelete, index, register, control, errors }: QuestionItemProps) {
   const { fields, append, remove } = useFieldArray({
     control,
-    name: `questions.${index}.options` as 'questions.0.options',
+    name: `questions.${index}.options`,
   });
 
   const questionErrors = errors.questions?.[index];
